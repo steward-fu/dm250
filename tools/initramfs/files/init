@@ -6,7 +6,7 @@ mount -n -t sysfs sysfs /sys
 /sbin/mdev -s
 
 #echo "####### check init script #######"
-mount -t vfat /dev/mmcblk1p1 /mnt/sd
+mount -t ext4 /dev/mmcblk1p1 /mnt/sd
 
 if [ $? = 0 ]; then
     if [ -e /mnt/sd/_init.sh ]; then
@@ -21,7 +21,7 @@ fi
 #echo "####### init script not found #######"
 
 #echo "####### mount /dev/mmcblk1p1 #######"
-mount -t ext4 -o rw /dev/mmcblk1p1 /root
+mount -t ext4 /dev/mmcblk1p1 /root
 
 if [ $? = 0 ]; then
     umount /sys
