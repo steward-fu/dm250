@@ -17,7 +17,9 @@ export ARCH=arm
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export CONFIG_EXTRA_LDLIBS="pthread dl tirpc audit pam"
 
-wget http://busybox.net/downloads/$BUSYBOX_SRC_VERSION.tar.bz2
+if [ ! -f $BUSYBOX_SRC_VERSION.tar.bz2 ]; then
+    wget http://busybox.net/downloads/$BUSYBOX_SRC_VERSION.tar.bz2
+fi
 tar jxvf $BUSYBOX_SRC_VERSION.tar.bz2
 cd $BUSYBOX_SRC_VERSION
 make defconfig
