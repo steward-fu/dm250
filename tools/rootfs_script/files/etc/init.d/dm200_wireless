@@ -1,0 +1,39 @@
+#!/bin/sh
+
+WIFI_SETTING_FILE=/mnt/sd/settings/wpa_supplicant.conf
+
+if [ -b /dev/mmcblk0p27 ]; then
+   MODEL="DM250"
+else
+   MODEL="DM200"
+fi
+
+case $1 in
+  start)
+    # WiFi firmware
+    if [ $MODEL = "DM250" ]; then
+        #DM250
+        echo "/opt/etc/firmware/fw_bcm43438a1.bin" > /sys/module/bcmdhd/parameters/firmware_path
+        echo "/opt/etc/firmware/nvram_AP6212.txt" > /sys/module/bcmdhd/parameters/nvram_path
+    else
+        #DM200
+        echo "/opt/etc/firmware/fw_RK901a2.bin" > /sys/module/bcmdhd/parameters/firmware_path
+        echo "/opt/etc/firmware/nvram_AP6210.txt" > /sys/module/bcmdhd/parameters/nvram_path
+    fi
+
+    # WiFi/bt power on
+#    echo 1 > /sys/class/rkwifi/driver
+
+    # WiFi power management on
+#    /sbin/iwconfig wlan0 power on
+
+    # copy wpa_supplicant.conf
+    if [ -f $WIFI_SETTING_FILE ];then
+        cp $WIFI_SETTING_FILE /tmp/wpa_supplicant.conf
+    fi
+  ;;
+  stop)
+  ;;
+esac
+
+exit 0
