@@ -11,13 +11,12 @@
 # settings
 #
 
-VERSION=bullseye
+VERSION=bookworm
 ENABLE_X=1
 
 #VARIANT=buildd
 VARIANT=minbase
-#SERVER=http://ftp.debian.org/debian/
-SERVER=http://ftp.jp.debian.org/debian/
+SERVER=http://ftp.debian.org/debian/
 
 ROOTFS=rootfs
 CACHE_DIR=`pwd`/cache/$VERSION
@@ -47,7 +46,7 @@ PACKAGE=${PACKAGE},vim-tiny,emacs-nox
 # X version option
 if [ ${ENABLE_X} -eq 1 ]; then
     PACKAGE=${PACKAGE},xorg
-    PACKAGE=${PACKAGE},vim-gtk,emacs,midori
+    PACKAGE=${PACKAGE},emacs
     # XFCE4
     PACKAGE=${PACKAGE},xfce4,dbus-user-session,dbus-x11,gvfs,xfce4-power-manager,xfce4-terminal
     # BT audio

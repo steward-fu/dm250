@@ -2,12 +2,12 @@
 
 # japanese settings
 chmod u+s /usr/bin/fbterm
-sed -i -e "s/# ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/" /etc/locale.gen
-LANG="ja_JP.UTF-8"
+sed -i -e "s/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/" /etc/locale.gen
+LANG="en_US.UTF-8"
 locale-gen
 update-locale
 rm /etc/localtime
-ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime
 
 # keyboard layout
 echo 'XKBMODEL="jp106"' > /etc/default/keyboard
@@ -32,6 +32,8 @@ if [ ${DISTRIBUTION} = "Debian" ]; then
     CODE_NAME=buster
   elif [ ${VERSION} = "11" ]; then
     CODE_NAME=bullseye
+  elif [ ${VERSION} = "12" ]; then
+    CODE_NAME=bookworm
   fi
     echo "deb http://deb.debian.org/debian/ $CODE_NAME main contrib non-free" > /etc/apt/sources.list
     echo "deb http://security.debian.org/debian-security $CODE_NAME-security main contrib non-free" >> /etc/apt/sources.list
@@ -57,9 +59,9 @@ echo "proc            /proc           proc    nodev,nosuid,noexec               
 echo "sysfs           /sys            sysfs   defaults                                    0   0" >> /etc/fstab
 echo "devpts          /dev/pts        devpts  defaults                                    0   0" >> /etc/fstab
 echo "/dev/mmcblk0p11 /opt/sys_info   ext4    ro                                          0   0" >> /etc/fstab
-echo "/dev/mmcblk1p2  /               ext4    errors=remount-ro                           0   1" >> /etc/fstab
-echo "/dev/mmcblk1p3  none            swap    sw                                          0   0" >> /etc/fstab
-echo "/dev/mmcblk1p1  /mnt/sd         vfat    rw,sync,dirsync,noatime,umask=0000,utf8     0   0" >> /etc/fstab
+echo "/dev/mmcblk1p1  /               ext4    errors=remount-rw                           0   1" >> /etc/fstab
+#echo "/dev/mmcblk1p3  none            swap    sw                                          0   0" >> /etc/fstab
+#echo "/dev/mmcblk1p1  /mnt/sd         vfat    rw,sync,dirsync,noatime,umask=0000,utf8     0   0" >> /etc/fstab
 
 echo "\n# for not show in desktop" >> /etc/fstab
 echo "/dev/mmcblk0p1  none            none    none                                        0   0" >> /etc/fstab
@@ -111,10 +113,9 @@ echo "\nPATH=/opt/bin:\$PATH" >> /etc/skel/.bashrc
 passwd -l root
 
 # add user
-useradd pomera -d /home/pomera -m -k /etc/skel -s /bin/bash -G video,sudo,lp
-echo "set pomera passwd"
-passwd pomera
-
+useradd user -d /home/user -m -k /etc/skel -s /bin/bash -G video,sudo,lp
+echo "set user passwd"
+passwd user
 
 ## .xinitrc
 #cat << \EOT >> /home/pomera/.xinitrc
@@ -137,14 +138,14 @@ passwd pomera
 #chown pomera:pomera /home/pomera/.xinitrc
 
 # add auto fbterm setting
-cat << \EOT >> /home/pomera/.bashrc
+cat << \EOT >> /home/user/.bashrc
 
-alias fbterm="LANG=ja_JP.UTF-8 fbterm -- uim-fep"
+alias fbterm="LANG=en_US.UTF-8 fbterm -- uim-fep"
 
 # If you want to auto launch fbturm at login time, uncomment here.
 #case "$TERM" in
 #  linux*)
-#    LANG=ja_JP.UTF-8 fbterm -- uim-fep
+#    LANG=en_US.UTF-8 fbterm -- uim-fep
 #	;;
 #esac
 EOT
